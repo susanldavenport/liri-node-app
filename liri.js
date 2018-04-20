@@ -1,16 +1,17 @@
 // === NPM === //
 require("dotenv").config();
+
 const keys = require('./keys.js');
 const Twitter = require('twitter');
 const Spotify = require('node-spotify-api');
 const request = require('request');
-// var fs = require('fs');
+const fs = require('fs');
 
 var liriComm = process.argv[2];
 var userInput = process.argv;
     userInput.splice(0, 3);
 var songName;
-var movieTitle;
+var movieName;
 
 //=== Keys === //
 var spotify = new Spotify(keys.spotify);
@@ -22,27 +23,23 @@ function runLiri(){
     switch(liriComm) {
 
         case 'my-tweets': 
-            // console.log("In Twitter Action");
             twitterGrab();
             break;
 
         case 'spotify-this-song':
-            // console.log("In Spotify Action");
-            console.log(userInput[0]);
             if (typeof userInput[0] === 'undefined') {
                 songName = 'toto africa';
                 spotifyGrab();
             } else {
-                // console.log("In else");
                 songName = userInput.join(' ');
                 spotifyGrab();
             }
         break;
 
        case 'movie-this':
-            console.log("In Movie Action");
+            // console.log(userInput[0]);
             if (typeof userInput[0] === 'undefined') {
-                movieName = 'Mr. Nobody';
+                movieName = 'Sabrina';
                 omdbGrab();
             } else {
                 movieName = userInput.join(' ');
@@ -51,8 +48,7 @@ function runLiri(){
             break;
 
         case 'do-what-it-says':
-            console.log("In DWIS Action");
-            doit();
+            doIt();
             break;
     }
 };
@@ -75,7 +71,6 @@ function spotifyGrab() {
     spotify.search({type: "track", query: songName}, 
     function(err, data) {
         if(err) throw err;
-            // console.log(data);
             console.log('=====================================');
             console.log(`Artist: ${data.tracks.items[0].artists[0].name}`);
             console.log(`Track: ${data.tracks.items[0].name}`); 
@@ -87,16 +82,15 @@ function spotifyGrab() {
 
 
 function omdbGrab() {
-    const omdbURL = 'http://www.omdbapi.com/?apikey=trilogy&t=${movieName}';
+    const omdbURL = 'http://www.omdbapi.com/?apikey=trilogy&t=' + userInput;
     request(omdbURL, function(err, response, body){
         if (!err && response.statusCode === 200) {
             const data = JSON.parse(body);
-            // console.log(response);
-            console.log('\n=====================================');
+            console.log('=====================================');
             console.log(`Title: ${data.Title}`);
             console.log(`Year: ${data.Year}`);
             console.log(`IMDB Rating: ${data.imdbRating}`);
-            console.log(`Rotten Tomatoes Rating: ${data.Ratings[1].Value}`);
+            console.log(`Rotten Tomatoes Rating: ${data.Ratings[0].Value}`);
             console.log(`Country: ${data.Country}`);
             console.log(`Language: ${data.Language}`);
             console.log(`Actors: ${data.Actors}`);
@@ -113,13 +107,6 @@ function doIt() {
         const readFileArr = data.split(',');
         liriComm = readFileArr[0];
         userInput = readFileArr[1].split(' ');
-        conosle.log('===============');
-    liriComm();
+    runLiri();
     });
 };
-
-
-
-
-
-
