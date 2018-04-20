@@ -12,7 +12,7 @@ In this assignment, you will make LIRI. LIRI is like iPhone's SIRI. However, whi
 
 3. To retrieve the data that will power this app, you'll need to send requests to the Twitter, Spotify and OMDB APIs. You'll find these Node packages crucial for your assignment.
 
-   * [Twitter](https://www.npmjs.com/package/twitter)
+   * [Twitter](https://www.npspmjs.com/package/twitter)
    
    * [Node-Spotify-API](https://www.npmjs.com/package/node-spotify-api)
    
