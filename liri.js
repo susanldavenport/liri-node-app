@@ -82,8 +82,7 @@ function getHelp(){
                     command.log('Make up your mind! Enter a search query!');
                 } else {
                     liriComm = inputA.userHelp;
-                    userInput = inputB.userInput;
-                    console.log(userInput);
+                    userInput = inputB.userSearch;
                     userInput = userInput.split(' ');
                     runLiri();
                 }
